@@ -1,0 +1,11 @@
+.bt {
+    border: 1px solid #b64300;
+    border-radius: 4px;
+    display: inline-block;
+    cursor: pointer;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 6px 10px;
+    text-decoration: none;
+}

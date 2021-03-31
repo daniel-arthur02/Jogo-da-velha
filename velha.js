@@ -1,115 +1,127 @@
-var tabuleiro;
-var board;
-var aviso;
-var jogador;
-var lin, col;
+const casas = document.getElementsByTagName('input'); 
 
-function inicia()
-{
-    tabuleiro = new Array(3);
-    board = document.getElementById('board');
-    aviso = document.getElementById('aviso');
-    jogador = 1;
+const b_reiniciar = document.getElementById('reiniciar'); 
 
-    for (let i = 0; i<3; i++) {
-        tabuleiro[i] = new Array(3);
-    }
+const label_jogador = document.getElementById('jogador'); 
 
-    for (let i=0; i<3 ; i++) {
-        for (let j = 0; j < 3; j++) {
-            tabuleiro[i][j] = 0;
-        }
-    }
-    exibe();
+var jogador = '_'; 
+var vencedor = '_'; 
+var finish;
+
+for(var i=0;i<9;i++) {
+	casas[i].addEventListener('click', (event) => {
+		if( (event.target.value=='_') && (vencedor=='_')) {
+			event.target.value=jogador; 
+			event.target.style.color='#bc5e00'; 
+
+			trocarJogador(); 
+
+			vencedor = vitoria(); 
+
+			
+		}
+	});
 }
 
-function exibe()
-{
-    HTML = '<table  cellpadding="10" border="1">';
-    for (let i=0; i<3 ; i++) {
-        HTML += '<tr>';
-        for (let j = 0; j < 3; j++)
+b_reiniciar.addEventListener('click', (event) => {
+	for(var i=0;i<9;i++) {
+		casas[i].value='_'; 
+		casas[i].style.color='#F7FE2E'; 
+		casas[i].style.backgroundColor='#F7FE2E'; 
+	}
 
-        if (tabuleiro[i][j] == 0) {
-            HTML += '<td>  __  </td>';
-        }
+	vencedor = '_'; 
 
-        else
-        if (tabuleiro[i][j] == 1) {
-            HTML += '<td> X </td>';
-        }
+	sortearJogador(); 
+});
 
-        else
-        HTML += '<td> O </td>';
-        HTML += '</tr>';
-    }
-    HTML += '</table><br />';
-    board.innerHTML = HTML
 
+var sortearJogador = function() {
+	if(Math.floor(Math.random() * 2)==0) {
+		jogador = "O"; 
+		label_jogador.innerText="O"; 
+		label_jogador.style.color='#ffffff'; 
+	}else{
+		jogador = "X";
+		label_jogador.innerText="X"; 
+		label_jogador.style.color='#000000'; 
+	}
 }
 
-function jogar()
-{
-    aviso.innerHTML = 'Vez do jogador: ' + ((jogador)%2 + 1);
-    lin = parseInt(document.getElementById("lin").value)-1;
-    col = parseInt(document.getElementById("col").value)-1;
+sortearJogador(); 
 
-    if (!tabuleiro[lin]) {
-        alert('Favor informe uma Linha');
-    }
-
-    if (!tabuleiro[col]) {
-        alert('Favor informe uma coluna');
-    }
-
-    if (tabuleiro[lin][col] == 0) {
-        if (jogador % 2)
-            tabuleiro[lin][col] = 1;
-        else
-            tabuleiro[lin][col] = -1;
-    }
-
-    else {
-        aviso.innerHTML='Campo ja foi marcado!'
-        jogador--;
-    }
-
-    
-    jogador++;
-    exibe();
-    checa();
+var trocarJogador = function() {
+	if(jogador=='X') {
+		jogador='O';
+		label_jogador.innerText='O';
+		label_jogador.style.color='#ffffff';
+		
+	}else{
+		jogador='X';
+		label_jogador.innerText='X';
+		label_jogador.style.color='#000000';
+	}
 }
 
-function checa()
-{
-    var soma;
-    for (let i=0 ; i<3 ; i++) {
-        soma = 0;
-        soma = tabuleiro[i][0]+tabuleiro[i][1]+tabuleiro[i][2];
+var vitoria = function() {
+	if((casas[0].value==casas[1].value) && (casas[1].value==casas[2].value) && casas[0].value!='_' ) {
+		casas[0].style.backgroundColor='#0F0';
+		casas[1].style.backgroundColor='#0F0';
+		casas[2].style.backgroundColor='#0F0';
 
-        if(soma==3 || soma==-3) {
-            aviso.innerHTML = "Jogador" + ((jogador)%2 +1) + " ganhou! Linha " + (i+1) + "preenchida!";
-        }
-    }
+		return casas[0].value;
 
-    for (let i=0 ; i<3 ; i++) {
-        soma=0;
-        soma=tabuleiro[0][i]+tabuleiro[1][i]+tabuleiro[2][i];
-      
-        if (soma==3 || soma==-3) {
-            aviso.innerHTML = "Jogador" + ((jogador)%2 +1) + " ganhou! Coluna " + (i+1) + "preenchida!";
-        }
-    }
-    
-    soma = 0;
-    soma = tabuleiro[0][0]+tabuleiro[1][1]+tabuleiro[2][2];
-    if (soma==3 || soma==-3) {
-        aviso.innerHTML="Jogador " + ((jogador)%2 + 1) + " ganhou! Diagonal preenchida";
-    }
+	}else if((casas[3].value==casas[4].value) && (casas[4].value==casas[5].value) && casas[3].value!='_' ) {
+		casas[3].style.backgroundColor='#0F0';
+		casas[4].style.backgroundColor='#0F0';
+		casas[5].style.backgroundColor='#0F0';
 
-    soma = 0;
-    soma = tabuleiro[0][2]+tabuleiro[1][1]+tabuleiro[2][0];
-    if (soma==3 || soma==-3) {
-        aviso.innerHTML="Jogador " + ((jogador)%2 + 1) + " ganhou! Diagonal preenchida";
-    }   
+		return casas[3].value;
+
+	}else if((casas[6].value==casas[7].value) && (casas[7].value==casas[8].value) && casas[6].value!='_' ) {
+		casas[6].style.backgroundColor='#0F0';
+		casas[7].style.backgroundColor='#0F0';
+		casas[8].style.backgroundColor='#0F0';
+
+		return casas[6].value;
+
+	}else if((casas[0].value==casas[3].value) && (casas[3].value==casas[6].value) && casas[0].value!='_' ) {
+		casas[0].style.backgroundColor='#0F0';
+		casas[3].style.backgroundColor='#0F0';
+		casas[6].style.backgroundColor='#0F0';
+
+		return casas[0].value;
+
+	}else if((casas[1].value==casas[4].value) && (casas[4].value==casas[7].value) && casas[1].value!='_' ) {
+		casas[1].style.backgroundColor='#0F0';
+		casas[4].style.backgroundColor='#0F0';
+		casas[7].style.backgroundColor='#0F0';
+
+		return casas[1].value;
+
+	}else if((casas[2].value==casas[5].value) && (casas[5].value==casas[8].value) && casas[2].value!='_' ) {
+		casas[2].style.backgroundColor='#0F0';
+		casas[5].style.backgroundColor='#0F0';
+		casas[8].style.backgroundColor='#0F0';
+
+		return casas[2].value;
+	}else if((casas[0].value==casas[4].value) && (casas[4].value==casas[8].value) && casas[0].value!='_' ) {
+		casas[0].style.backgroundColor='#0F0';
+		casas[4].style.backgroundColor='#0F0';
+		casas[8].style.backgroundColor='#0F0';
+
+		return casas[0].value;
+
+	}else if((casas[2].value==casas[4].value) && (casas[4].value==casas[6].value) && casas[2].value!='_' ) {
+		casas[2].style.backgroundColor='#0F0';
+		casas[4].style.backgroundColor='#0F0';
+		casas[6].style.backgroundColor='#0F0';
+
+		return casas[2].value;
+	}
+	
+								
+    return '_';
 }
+
+

@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<meta charset="UTF-8">
-<html>
+<html lang="pt-br">
     <head>
         <title>Jogo da Velha</title>
-        <script type="text/javascript" src="velha.js"></script>
+        <meta charset="UTF-8">
         <link href="style/velha.css">
     </head>
-    <body onload="inicia()">
-        <div id="board"></div><br/>
-        Linha: <input id="lin" type="number" min="1" max="3"><br/>
-        Coluna:<input id="col" type="number"min="1" max="3"> <br/>
-        <button class="bt bt-vd" onclick="jogar()">Marcar</button>
-        <div id='aviso'></div><br />
+    <body>
+        <h1>Jogador <span id="jogador"></span></h1>
+        <main>
+            <div><input type="button" value="_"><input type="button" value="_"><input type="button" value="_"></div>
+            <div><input type="button" value="_"><input type="button" value="_"><input type="button" value="_"></div>
+            <div><input type="button" value="_"><input type="button" value="_"><input type="button" value="_"></div>
+        </main>
+
+        <input type="button" value="Reiniciar" id="reiniciar">
+
+        <script src="velha.js"></script>
     </body>
 </html>
